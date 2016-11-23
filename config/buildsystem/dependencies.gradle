@@ -1,0 +1,90 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidCompileSdkVersion = 24
+    androidBuildToolsVersion = "24.0.2"
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 24
+
+    //Arch
+    daggerVersion = '2.8'
+    rxJavaVersion = '1.2.3'
+    rxAndroidVersion = '1.2.1'
+    javaxAnnotationVersion = '1.0'
+
+    //Libraries
+    supportVersion = '25.0.0'
+    butterKnifeVersion = '8.4.0'
+    gsonVersion = '2.8.0'
+
+    //Frameworks
+    retrofitVersion = '2.1.0'
+//    realmVersion = '2.2.1'
+    lombokVersion = '1.16.10'
+    okthttpVersion = '3.4.2'
+
+    //Testing
+    robolectricVersion = '3.0'
+    jUnitVersion = '4.12'
+    mockitoVersion = '1.+'
+
+    applicationDependencies = [
+            appCompat_v7    : "com.android.support:appcompat-v7:${supportVersion}",
+            support_v4      : "com.android.support:support-v4:${supportVersion}",
+            design          : "com.android.support:design:${supportVersion}",
+            butterKnife     : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            dagger          : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava          : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid       : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotations: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+    ]
+
+    applicationTestingDependencies = [
+            jUnit       : "junit:junit:${jUnitVersion}",
+            mockito     : "org.mockito:mockito-core:${mockitoVersion}",
+            roboelectric: "org.robolectric:robolectric:${robolectricVersion}"
+    ]
+
+    dataDependencies = [
+            dagger              : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler      : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava              : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxAndroid           : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            retrofit            : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitGson        : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitRxAdapter   : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+            javaxAnnotations    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+//            realm               : "io.realm:realm-android:${realmVersion}",
+            lombok              : "org.projectlombok:lombok:${lombokVersion}",
+            okthttp             : "com.squareup.okhttp3:okhttp:${okthttpVersion}",
+            logging_interceptor : "com.squareup.okhttp3:logging-interceptor:${okthttpVersion}",
+            support_annotations : "com.android.support:support-annotations:${supportVersion}",
+    ]
+
+    dataTestDependencies = [
+            jUnit       : "junit:junit:${jUnitVersion}",
+            mockito     : "org.mockito:mockito-core:${mockitoVersion}",
+            roboelectric: "org.robolectric:robolectric:${robolectricVersion}"
+    ]
+
+    domainDependencies = [
+            dagger          : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            rxJava          : "io.reactivex:rxjava:${rxJavaVersion}",
+            javaxAnnotations: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            lombok          : "org.projectlombok:lombok:${lombokVersion}",
+            gson            : "com.google.code.gson:gson:${gsonVersion}"
+    ]
+
+    domainTestDependencies = [
+            jUnit  : "junit:junit:${jUnitVersion}",
+            mockito: "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+
+}

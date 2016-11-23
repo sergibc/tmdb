@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
+//preBuild.dependsOn 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+}
+
+compileJava {
+    //noinspection GroovyUnusedAssignment
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    //noinspection GroovyUnusedAssignment
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    def domainDependencies = rootProject.ext.domainDependencies
+    def domainTestDependencies = rootProject.ext.domainTestDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Arch dependencies
+    compile domainDependencies.dagger
+    provided domainDependencies.daggerCompiler
+    provided domainDependencies.javaxAnnotations
+    compile domainDependencies.rxJava
+
+    // Framework dependencies
+    compile domainDependencies.lombok
+    compile domainDependencies.gson
+
+    // Test dependencies
+    testCompile domainTestDependencies.jUnit
+    testCompile domainTestDependencies.mockito
+}
+test {
+    testLogging {
+        showStandardStreams = true
+        showStackTraces = true
+        exceptionFormat = "full"
+    }
+}

@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.0'
+    }
+}
+
+// Required because retrolambda is on maven central
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'checkstyle'
+apply plugin: 'realm-android'
+
+//preBuild.dependsOn 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
+    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+}
+
+android {
+    compileSdkVersion rootProject.ext.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+
+        versionCode 0
+        versionName "0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    def dataDependencies = rootProject.ext.dataDependencies
+    def dataTestDependencies = rootProject.ext.dataTestDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Arch dependencies
+    compile dataDependencies.dagger
+    apt dataDependencies.daggerCompiler
+    provided dataDependencies.javaxAnnotations
+    compile dataDependencies.rxJava
+    compile dataDependencies.rxAndroid
+
+    // Framework dependencies
+    compile dataDependencies.retrofit
+    compile dataDependencies.retrofitGson
+    compile dataDependencies.retrofitRxAdapter
+    compile dataDependencies.lombok
+    apt dataDependencies.lombok
+    compile dataDependencies.okthttp
+    compile dataDependencies.logging_interceptor
+//    compile dataDependencies.realm
+    compile dataDependencies.support_annotations
+
+    // Test dependencies
+//    testCompile 'org.assertj:assertj-core:1.7.1'
+    testCompile dataTestDependencies.jUnit
+    testCompile dataTestDependencies.mockito
+    testCompile dataTestDependencies.roboelectric
+
+    // Module dependencies
+    compile project(':domain')
+}

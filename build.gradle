@@ -1,0 +1,29 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'config/buildsystem/dependencies.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.6'
+        classpath "io.realm:realm-gradle-plugin:2.2.0"
+    }
+}
+
+allprojects {
+    ext {
+        androidApplicationId = 'com.sergibc.tmdb'
+        androidVersionCode = 0
+        androidVersionName = "0"
+    }
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

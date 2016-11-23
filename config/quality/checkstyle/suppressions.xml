@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+
+<suppressions>
+
+    <suppress checks="[a-zA-Z0-9]*" files="Manifest.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="R.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="BuildConfig.java" />
+    <suppress checks="[a-zA-Z0-9]*" files="(Test.java)$"/>
+
+</suppressions>
