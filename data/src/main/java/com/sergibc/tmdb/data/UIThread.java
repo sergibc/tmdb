@@ -1,6 +1,6 @@
 package com.sergibc.tmdb.data;
 
-import com.sergibc.tmdb.clean.domain.executor.PostExecutionThread;
+import com.sergibc.tmdb.domain.executor.PostExecutionThread;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

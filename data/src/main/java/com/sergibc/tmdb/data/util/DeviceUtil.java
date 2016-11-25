@@ -31,16 +31,11 @@ public final class DeviceUtil {
     }
 
     /**
-     * Get the device language. We support 'es', 'en', 'de', 'it', 'fr', 'ja'. If it is not one them, then language will be 'en'
+     * Get the device language. We support 'es' and 'en', but we can add any language supported by the Api
      */
     public static String getDeviceLanguage() {
         String deviceLanguage = Locale.getDefault().getLanguage();
-        if ("en".equals(deviceLanguage)
-                || "es".equals(deviceLanguage)
-                || "it".equals(deviceLanguage)
-                || "de".equals(deviceLanguage)
-                || "fr".equals(deviceLanguage)
-                || "ja".equals(deviceLanguage)) {
+        if ("en".equals(deviceLanguage) || "es".equals(deviceLanguage)) {
             return deviceLanguage;
         } else {
             return "en";

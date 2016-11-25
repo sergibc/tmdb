@@ -13,6 +13,8 @@ import javax.inject.Singleton;
 @Singleton
 public class PreferencesUtil {
 
+    private static final String API_KEY = "API_KEY";
+
     private SharedPreferences sharedPreferences;
 
     @Inject
@@ -20,5 +22,43 @@ public class PreferencesUtil {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    // TODO Add all preferences needed
+    /**
+     * Look for the value of a key in the shared preferences file
+     *
+     * @param key          String name of the property
+     * @param defaultValue default value
+     *
+     * @return String value of the property. By default an empty String will be returned.
+     */
+    private String getStringProperty(String key, String defaultValue) {
+        return sharedPreferences.getString(key, defaultValue);
+    }
+
+    /**
+     * Save a String property in the shared preferences file
+     *
+     * @param key   String name of the property
+     * @param value String value of the property
+     */
+    private void setStringProperty(String key, String value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    /**
+     * Get the value of the API_KEY
+     */
+    public String getApiKey() {
+        return getStringProperty(API_KEY, null);
+    }
+
+    /**
+     * Save the value of the API_KEY
+     *
+     * @param apiKey String value of the API_KEY
+     */
+    public void setApiKey(String apiKey) {
+        setStringProperty(API_KEY, apiKey);
+    }
 }

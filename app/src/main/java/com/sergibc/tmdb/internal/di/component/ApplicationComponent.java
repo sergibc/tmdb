@@ -2,7 +2,11 @@ package com.sergibc.tmdb.internal.di.component;
 
 import com.sergibc.tmdb.data.bus.RxBus;
 import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
+import com.sergibc.tmdb.domain.executor.PostExecutionThread;
+import com.sergibc.tmdb.domain.executor.ThreadExecutor;
+import com.sergibc.tmdb.domain.repository.movie.MovieRepository;
 import com.sergibc.tmdb.internal.di.module.ApplicationModule;
+import com.sergibc.tmdb.navigation.Navigator;
 
 import android.content.Context;
 
@@ -24,4 +28,12 @@ public interface ApplicationComponent {
     PreferencesUtil preferencesUtil();
 
     RxBus rxBus();
+
+    ThreadExecutor threadExecutor();
+
+    PostExecutionThread postExecutionThread();
+
+    Navigator navigator();
+
+    MovieRepository movieRepository();
 }

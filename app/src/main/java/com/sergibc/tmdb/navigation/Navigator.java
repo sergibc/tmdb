@@ -2,9 +2,8 @@ package com.sergibc.tmdb.navigation;
 
 import com.sergibc.tmdb.internal.di.PerActivity;
 import com.sergibc.tmdb.view.activity.BaseActivity;
-import com.sergibc.tmdb.view.activity.MainActivity;
+import com.sergibc.tmdb.view.activity.MovieListActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,18 +15,13 @@ import javax.inject.Inject;
 @PerActivity
 public class Navigator {
 
-    public static final int REQUEST_CODE_SELECTED_RESERVATION = 1;
-
-    private Context context;
-
     @Inject
-    public Navigator(Context context) {
-        this.context = context;
+    public Navigator() {
     }
 
     public void goToMainActivity(BaseActivity activity, Bundle extras) {
         if (activity != null) {
-            Intent intent = MainActivity.getCallingIntent(activity, extras);
+            Intent intent = MovieListActivity.getCallingIntent(activity, extras);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             activity.startActivity(intent);
         }
