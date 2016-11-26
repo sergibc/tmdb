@@ -16,15 +16,17 @@ import javax.inject.Named;
  */
 public class MovieListPresenter extends Presenter<IMovieListView> {
 
-    private static final String TAG = "MovieListPresenter";
+    public static final int DEFAULT_FIRST_PAGE = 1;
 
-    private static final int DEFAULT_FIRST_PAGE = 1;
+    private static final String TAG = "MovieListPresenter";
 
     private final Interactor getPopularMoviesUseCase;
 
     private final Interactor searchMoviesUseCase;
 
     private int page = DEFAULT_FIRST_PAGE;
+
+    private int totalPages = DEFAULT_FIRST_PAGE;
 
     @Inject
     public MovieListPresenter(@Named("getPopularMoviesUseCase") Interactor getPopularMoviesUseCase,
@@ -66,29 +68,38 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
     }
 
     private void getPopularMovies() {
-        ((GetPopularMoviesUseCase) getPopularMoviesUseCase).execute(page, true, new DefaultSubscriber<MovieResponseBo>() {
+        if (page <= totalPages) {
+            ((GetPopularMoviesUseCase) getPopularMoviesUseCase).execute(page, true, new DefaultSubscriber<MovieResponseBo>() {
 
-            private MovieResponseBo responseBo;
+                private MovieResponseBo responseBo;
 
-            @Override
-            public void onCompleted() {
-                super.onCompleted();
-                if (responseBo != null) {
-                    Log.d(TAG, "getPopularMovies: " + responseBo);
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    if (responseBo != null) {
+                        //                    Log.d(TAG, "getPopularMovies: " + responseBo);
+                        totalPages = responseBo.getTotalPages();
+                        view.addMoviesToList(responseBo);
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "getPopularMovies: " + e);
-                super.onError(e);
-            }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG, "getPopularMovies: " + e);
+                    super.onError(e);
+                }
 
-            @Override
-            public void onNext(MovieResponseBo movieResponseBo) {
-                super.onNext(movieResponseBo);
-                this.responseBo = movieResponseBo;
-            }
-        });
+                @Override
+                public void onNext(MovieResponseBo movieResponseBo) {
+                    super.onNext(movieResponseBo);
+                    this.responseBo = movieResponseBo;
+                }
+            });
+        }
+    }
+
+    public void loadPage(int page) {
+        this.page = page;
+        getPopularMovies();
     }
 }

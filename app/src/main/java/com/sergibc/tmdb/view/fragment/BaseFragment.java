@@ -33,7 +33,7 @@ public abstract class BaseFragment extends Fragment {
     @Inject
     PreferencesUtil preferencesUtil;
 
-    private Unbinder unbinder;
+    protected Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        unbinder.unbind();
+//        unbinder.unbind();
 
         Presenter presenter = getPresenter();
         if (presenter != null) {

@@ -68,7 +68,7 @@ public class MovieDto {
     private double voteAverage;
 
     /**
-     * @return The posterPath
+     * @return The imagePath
      */
     public String getPosterPath() {
         return posterPath;
