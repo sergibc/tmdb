@@ -1,5 +1,6 @@
 package com.sergibc.tmdb.model.mapper;
 
+import com.sergibc.tmdb.data.util.DateUtils;
 import com.sergibc.tmdb.domain.bean.interactor.movie.MovieBo;
 import com.sergibc.tmdb.domain.bean.interactor.movie.MovieResponseBo;
 import com.sergibc.tmdb.domain.mapper.Mapper;
@@ -58,7 +59,7 @@ public class ViewModelMovieMapper implements Mapper<MovieResponseBo, MovieViewMo
             viewModel.setOverview(bo.getOverview());
             viewModel.setImagePath(bo.getBackdropPath());
             viewModel.setTitle(bo.getTitle());
-            viewModel.setYear(bo.getReleaseDate()); // TODO get only the year
+            viewModel.setYear(DateUtils.getYear(bo.getReleaseDate()));
         }
 
         return viewModel;

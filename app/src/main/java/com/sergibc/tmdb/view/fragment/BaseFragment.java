@@ -1,6 +1,5 @@
 package com.sergibc.tmdb.view.fragment;
 
-import com.sergibc.tmdb.BuildConfig;
 import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
 import com.sergibc.tmdb.internal.di.HasComponent;
 import com.sergibc.tmdb.navigation.Navigator;
@@ -14,8 +13,7 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+//import butterknife.ButterKnife;
 
 /**
  * Base Fragment class for <b>every</b> fragment in this application.
@@ -33,13 +31,13 @@ public abstract class BaseFragment extends Fragment {
     @Inject
     PreferencesUtil preferencesUtil;
 
-    protected Unbinder unbinder;
+    //    protected Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
-        unbinder = ButterKnife.bind(this, view);
-        ButterKnife.setDebug(BuildConfig.DEBUG);
+        //        unbinder = ButterKnife.bind(this, view);
+        //        ButterKnife.setDebug(BuildConfig.DEBUG);
 
         return view;
     }
@@ -103,7 +101,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-//        unbinder.unbind();
+        //        unbinder.unbind();
 
         Presenter presenter = getPresenter();
         if (presenter != null) {

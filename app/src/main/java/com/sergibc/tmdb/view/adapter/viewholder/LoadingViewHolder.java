@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//import butterknife.BindView;
-//import butterknife.ButterKnife;
 
 /**
- * View holder for movie items
+ * View holder for loading item
  */
-public class MovieViewHolder extends RecyclerView.ViewHolder {
+public class LoadingViewHolder extends RecyclerView.ViewHolder {
 
 //    @BindView(R.id.movie_image)
     ImageView movieImage;
@@ -28,7 +26,7 @@ public class MovieViewHolder extends RecyclerView.ViewHolder {
     TextView movieOverview;
 
     // TODO review Butterknife
-    public MovieViewHolder(View itemView) {
+    public LoadingViewHolder(View itemView) {
         super(itemView);
 //        ButterKnife.bind(this, itemView);
         movieImage = (ImageView) itemView.findViewById(R.id.movie_image);

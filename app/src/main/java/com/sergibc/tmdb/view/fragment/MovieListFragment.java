@@ -12,28 +12,46 @@ import com.sergibc.tmdb.view.adapter.MoviesListAdapter;
 import com.sergibc.tmdb.view.listener.EndlessScrollListener;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
+//import butterknife.BindView;
 
 /**
  * Fragment for movie list
  */
-public class MovieListFragment extends BaseFragment implements IMovieListView {
+public class MovieListFragment extends BaseFragment
+        implements IMovieListView, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+
+    private static final String TAG = "MovieListFragment";
 
     @Inject
     MovieListPresenter presenter;
 
-    @BindView(R.id.movie_list)
-    RecyclerView movieList;
+    //    @BindView(R.id.movie_list)
+    private RecyclerView movieList;
+
+    private SearchView searchView;
+
+    private View emptyView;
+
+    private View loadingView;
 
     private MoviesListAdapter adapter;
+
+    private boolean searching;
 
     public MovieListFragment() {
 
@@ -44,6 +62,12 @@ public class MovieListFragment extends BaseFragment implements IMovieListView {
         return fragment;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     // TODO Review ButterKnife
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +75,8 @@ public class MovieListFragment extends BaseFragment implements IMovieListView {
         //        unbinder = ButterKnife.bind(this, view);
         //        ButterKnife.setDebug(BuildConfig.DEBUG);
         movieList = (RecyclerView) view.findViewById(R.id.movie_list);
+        emptyView = view.findViewById(R.id.movie_empty);
+        loadingView = view.findViewById(R.id.movie_loading);
 
         return view;
     }
@@ -96,7 +122,7 @@ public class MovieListFragment extends BaseFragment implements IMovieListView {
         movieList.addOnScrollListener(new EndlessScrollListener(movieList.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                presenter.loadPage(page);
+                presenter.loadPage(page, searching);
             }
         });
     }
@@ -108,6 +134,94 @@ public class MovieListFragment extends BaseFragment implements IMovieListView {
         if (viewModel != null) {
             adapter.setMovieViewModel(viewModel);
             adapter.addItems(viewModel.getMovies());
+            if (viewModel.getMovies() != null && !viewModel.getMovies().isEmpty()) {
+                hideEmptyView();
+            } else {
+                showEmptyView();
+            }
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (emptyView != null) {
+            emptyView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showEmptyView() {
+        if (emptyView != null) {
+            emptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        if (loadingView != null) {
+            loadingView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_movies, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(this);
+        MenuItemCompat.setOnActionExpandListener(searchItem, this);
+
+        View closeButton = searchView.findViewById(R.id.search_close_btn);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.clearData();
+                searchView.setQuery("", false);
+            }
+        });
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d(TAG, "onQueryTextSubmit: " + query);
+        search(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d(TAG, "onQueryTextChange: " + newText);
+        search(newText);
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        // Do nothing
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        adapter.clearData();
+        initializePresenter();
+        return true;
+    }
+
+    private void search(String query) {
+        adapter.clearData();
+        if (!TextUtils.isEmpty(query) && query.length() >= 3) {
+            // TODO show loading
+            searching = true;
+            presenter.search(MovieListPresenter.DEFAULT_FIRST_PAGE, query);
+        } else {
+            // TODO show at least 3 chars
         }
     }
 }

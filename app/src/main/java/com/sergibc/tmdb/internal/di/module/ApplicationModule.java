@@ -58,7 +58,6 @@ public class ApplicationModule {
         return new Navigator();
     }
 
-
     @Provides
     @Singleton
     MovieRepository provideMovieRepository(MovieRepositoryImpl movieRepository) {

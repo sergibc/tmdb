@@ -79,7 +79,7 @@ dependencies {
     compile applicationDependencies.appCompat_v7
     compile applicationDependencies.support_v4
     compile applicationDependencies.design
-    compile applicationDependencies.butterKnife
+//    compile applicationDependencies.butterKnife
     annotationProcessor applicationDependencies.butterKnife
     compile applicationDependencies.cardView
     compile applicationDependencies.picasso

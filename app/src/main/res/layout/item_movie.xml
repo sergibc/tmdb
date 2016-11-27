@@ -18,38 +18,36 @@
             android:layout_height="200dp"
             tools:background="@mipmap/ic_launcher" />
 
-        <LinearLayout
+        <com.sergibc.tmdb.view.widget.AutoResizeTextView
+            android:id="@+id/movie_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/movie_image"
             android:background="#44556677"
             android:gravity="center_vertical|right|end"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:lines="1"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:textSize="22sp"
+            tools:text="Spiderman" />
 
-            <TextView
-                android:id="@+id/movie_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                tools:text="Spiderman" />
-
-            <TextView
-                android:id="@+id/movie_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingStart="10dp"
-                android:textSize="18sp"
-                tools:text="1999" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/movie_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movie_image"
+            android:gravity="center_vertical|right|end"
+            android:padding="5dp"
+            android:textSize="16sp"
+            tools:text="1999" />
 
         <TextView
             android:id="@+id/movie_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/movie_image"
+            android:layout_below="@+id/movie_year"
             android:padding="5dp"
+            android:textSize="16sp"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
     </RelativeLayout>
 

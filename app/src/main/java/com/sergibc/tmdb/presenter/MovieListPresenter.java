@@ -3,6 +3,7 @@ package com.sergibc.tmdb.presenter;
 import com.sergibc.tmdb.domain.bean.interactor.movie.MovieResponseBo;
 import com.sergibc.tmdb.domain.interactor.Interactor;
 import com.sergibc.tmdb.domain.interactor.movie.GetPopularMoviesUseCase;
+import com.sergibc.tmdb.domain.interactor.movie.SearchMoviesUseCase;
 import com.sergibc.tmdb.domain.interactor.subscriber.DefaultSubscriber;
 import com.sergibc.tmdb.view.IMovieListView;
 
@@ -27,6 +28,8 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
     private int page = DEFAULT_FIRST_PAGE;
 
     private int totalPages = DEFAULT_FIRST_PAGE;
+
+    private String query;
 
     @Inject
     public MovieListPresenter(@Named("getPopularMoviesUseCase") Interactor getPopularMoviesUseCase,
@@ -69,6 +72,8 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
 
     private void getPopularMovies() {
         if (page <= totalPages) {
+            view.showLoading();
+            view.hideEmptyView();
             ((GetPopularMoviesUseCase) getPopularMoviesUseCase).execute(page, true, new DefaultSubscriber<MovieResponseBo>() {
 
                 private MovieResponseBo responseBo;
@@ -76,16 +81,57 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
                 @Override
                 public void onCompleted() {
                     super.onCompleted();
+                    view.hideLoading();
                     if (responseBo != null) {
                         //                    Log.d(TAG, "getPopularMovies: " + responseBo);
                         totalPages = responseBo.getTotalPages();
                         view.addMoviesToList(responseBo);
+                    } else {
+                        view.showEmptyView();
                     }
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e(TAG, "getPopularMovies: " + e);
+                    Log.e(TAG, "getPopularMovies: " + e); // TODO
+                    super.onError(e);
+                    view.hideLoading();
+                }
+
+                @Override
+                public void onNext(MovieResponseBo movieResponseBo) {
+                    super.onNext(movieResponseBo);
+                    this.responseBo = movieResponseBo;
+                }
+            });
+        } else {
+            view.hideLoading();
+        }
+    }
+
+    private void searchMovies() {
+        if (page <= totalPages) {
+            view.showLoading();
+            view.hideEmptyView();
+            ((SearchMoviesUseCase) searchMoviesUseCase).execute(page, query, new DefaultSubscriber<MovieResponseBo>() {
+
+                MovieResponseBo responseBo;
+
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    view.hideLoading();
+                    if (responseBo != null) {
+                        totalPages = responseBo.getTotalPages();
+                        view.addMoviesToList(responseBo);
+                    } else {
+                        view.showEmptyView();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Log.e(TAG, "searchMovies: " + e); //TODO
                     super.onError(e);
                 }
 
@@ -95,11 +141,23 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
                     this.responseBo = movieResponseBo;
                 }
             });
+        } else {
+            view.hideLoading();
         }
     }
 
-    public void loadPage(int page) {
+    public void search(int page, String query) {
         this.page = page;
-        getPopularMovies();
+        this.query = query;
+        searchMovies();
+    }
+
+    public void loadPage(int page, boolean searching) {
+        this.page = page;
+        if (searching) {
+            searchMovies();
+        } else {
+            getPopularMovies();
+        }
     }
 }

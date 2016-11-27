@@ -37,6 +37,6 @@ public class SearchMoviesUseCase extends Interactor {
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return movieRepository.searchMovies(page, query, false); // TODO manage the refresh value
+        return movieRepository.searchMovies(page, query, true); // TODO manage the refresh value
     }
 }

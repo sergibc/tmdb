@@ -51,12 +51,16 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         MovieItemViewModel movie = movieItemViewModels.get(position);
 
         if (movie != null) {
-            holder.getMovieTitle().setText(movie.getTitle());
-            holder.getMovieYear().setText(movie.getYear());
-            holder.getMovieOverview().setText(movie.getOverview());
+            holder.getMovieTitle().setText(getStringField(movie.getTitle()));
+            holder.getMovieYear().setText(getStringField(movie.getYear()));
+            holder.getMovieOverview().setText(getStringField(movie.getOverview()));
             if (!TextUtils.isEmpty(movie.getImagePath())) {
                 Picasso.with(context)
                         .load("http://image.tmdb.org/t/p/w500" + movie.getImagePath())
+                        .into(holder.getMovieImage());
+            } else {
+                Picasso.with(context)
+                        .load(R.drawable.place_holder)
                         .into(holder.getMovieImage());
             }
         }
@@ -76,5 +80,21 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
             movieItemViewModels.addAll(items);
             notifyDataSetChanged();
         }
+    }
+
+    public void clearData() {
+        if (movieItemViewModels == null) {
+            movieItemViewModels = new ArrayList<>();
+        } else {
+            movieItemViewModels.clear();
+        }
+
+        movieViewModel = new MovieViewModel();
+
+        notifyDataSetChanged();
+    }
+
+    private String getStringField(String original) {
+        return TextUtils.isEmpty(original) ? context.getString(R.string.not_available) : original;
     }
 }

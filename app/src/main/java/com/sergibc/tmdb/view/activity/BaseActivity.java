@@ -18,7 +18,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
+//import butterknife.ButterKnife;
 
 /**
  * Base {@link AppCompatActivity} class for every Activity in this application.
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         int layoutResourceId = getLayoutResourceId();
         if (layoutResourceId > 0) {
             setContentView(layoutResourceId);
-            ButterKnife.bind(this);
+//            ButterKnife.bind(this);
         }
 
         if (BuildConfig.DEBUG) {

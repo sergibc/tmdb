@@ -8,4 +8,12 @@ import com.sergibc.tmdb.domain.bean.interactor.movie.MovieResponseBo;
 public interface IMovieListView {
 
     void addMoviesToList(MovieResponseBo movieResponseBo);
+
+    void hideEmptyView();
+
+    void showEmptyView();
+
+    void hideLoading();
+
+    void showLoading();
 }

@@ -2,6 +2,7 @@ package com.sergibc.tmdb.data.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -10,8 +11,7 @@ import java.util.Locale;
  */
 public final class DateUtils {
 
-    // TODO Add or modify the patterns needed
-    public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"; // Date pattern of the service's responses
 
     private DateUtils() {
     }
@@ -25,7 +25,7 @@ public final class DateUtils {
         return getCurrentTime(DATE_PATTERN);
     }
 
-    public static Date getDateFromString(String dateString, String pattern) {
+    private static Date getDateFromString(String dateString, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         Date convertedDate = new Date();
         try {
@@ -46,6 +46,13 @@ public final class DateUtils {
     public static String parseDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
         return sdf.format(date);
+    }
+
+    public static String getYear(String textDate) {
+        Date date = getDateFromString(textDate, DATE_PATTERN);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.valueOf(calendar.get(Calendar.YEAR));
     }
 
 }
