@@ -10,12 +10,17 @@ import com.sergibc.tmdb.presenter.Presenter;
 import com.sergibc.tmdb.view.IMovieListView;
 import com.sergibc.tmdb.view.adapter.MoviesListAdapter;
 import com.sergibc.tmdb.view.listener.EndlessScrollListener;
+import com.sergibc.tmdb.view.widget.FabScrollBehavior;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +38,7 @@ import javax.inject.Inject;
  * Fragment for movie list
  */
 public class MovieListFragment extends BaseFragment
-        implements IMovieListView, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+        implements IMovieListView, SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener, View.OnClickListener {
 
     private static final String TAG = "MovieListFragment";
 
@@ -48,6 +53,10 @@ public class MovieListFragment extends BaseFragment
     private View emptyView;
 
     private View loadingView;
+
+    private FloatingActionButton fab;
+
+    private Toolbar toolbar;
 
     private MoviesListAdapter adapter;
 
@@ -77,6 +86,9 @@ public class MovieListFragment extends BaseFragment
         movieList = (RecyclerView) view.findViewById(R.id.movie_list);
         emptyView = view.findViewById(R.id.movie_empty);
         loadingView = view.findViewById(R.id.movie_loading);
+        fab = (FloatingActionButton) view.findViewById(R.id.movie_fab);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         return view;
     }
@@ -116,6 +128,14 @@ public class MovieListFragment extends BaseFragment
         movieList.setLayoutManager(new LinearLayoutManager(getContext())); // TODO change
         adapter = new MoviesListAdapter(getContext());
         movieList.setAdapter(adapter);
+        setFabButtonVisibility();
+    }
+
+    private void setFabButtonVisibility() {
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        layoutParams.setBehavior(new FabScrollBehavior());
+        fab.setVisibility(View.GONE);
+        fab.setLayoutParams(layoutParams);
     }
 
     private void setListeners() {
@@ -125,6 +145,8 @@ public class MovieListFragment extends BaseFragment
                 presenter.loadPage(page, searching);
             }
         });
+
+        fab.setOnClickListener(this);
     }
 
     @Override
@@ -212,6 +234,23 @@ public class MovieListFragment extends BaseFragment
         adapter.clearData();
         initializePresenter();
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.movie_fab:
+                goTop();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void goTop() {
+        fab.setVisibility(View.GONE);
+        movieList.smoothScrollToPosition(0);
     }
 
     private void search(String query) {

@@ -11,7 +11,6 @@ import com.sergibc.tmdb.view.fragment.MovieListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 
 /**
  * Activity for movie list
@@ -40,9 +39,6 @@ public class MovieListActivity extends BaseActivity implements HasComponent<Movi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //        setContentView(R.layout.activity_movie_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         init();
     }
