@@ -18,8 +18,6 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-//import butterknife.ButterKnife;
-
 /**
  * Base {@link AppCompatActivity} class for every Activity in this application.
  */
@@ -39,12 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //        ScreenUtils.setExpectedScreenOrientation(this);
-
         int layoutResourceId = getLayoutResourceId();
         if (layoutResourceId > 0) {
             setContentView(layoutResourceId);
-//            ButterKnife.bind(this);
         }
 
         if (BuildConfig.DEBUG) {

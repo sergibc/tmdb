@@ -19,13 +19,11 @@ ext {
 
     //Libraries
     supportVersion = '25.0.0'
-    butterKnifeVersion = '8.4.0'
     gsonVersion = '2.8.0'
     picassoVersion = '2.5.2'
 
     //Frameworks
     retrofitVersion = '2.1.0'
-//    realmVersion = '2.2.1'
     lombokVersion = '1.16.10'
     okthttpVersion = '3.4.2'
 
@@ -38,7 +36,6 @@ ext {
             appCompat_v7    : "com.android.support:appcompat-v7:${supportVersion}",
             support_v4      : "com.android.support:support-v4:${supportVersion}",
             design          : "com.android.support:design:${supportVersion}",
-            butterKnife     : "com.jakewharton:butterknife:${butterKnifeVersion}",
             cardView        : "com.android.support:cardview-v7:${supportVersion}",
             dagger          : "com.google.dagger:dagger:${daggerVersion}",
             daggerCompiler  : "com.google.dagger:dagger-compiler:${daggerVersion}",
@@ -63,7 +60,6 @@ ext {
             retrofitGson       : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             retrofitRxAdapter  : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
             javaxAnnotations   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-//            realm               : "io.realm:realm-android:${realmVersion}",
             lombok             : "org.projectlombok:lombok:${lombokVersion}",
             okthttp            : "com.squareup.okhttp3:okhttp:${okthttpVersion}",
             logging_interceptor: "com.squareup.okhttp3:logging-interceptor:${okthttpVersion}",

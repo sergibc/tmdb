@@ -40,7 +40,7 @@ public class MovieListActivity extends BaseActivity implements HasComponent<Movi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        init();
+        init(savedInstanceState);
     }
 
     @Override
@@ -48,8 +48,10 @@ public class MovieListActivity extends BaseActivity implements HasComponent<Movi
         return null;
     }
 
-    private void init() {
-        initializeActivity();
+    private void init(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            initializeActivity();
+        }
         initializeInjector();
     }
 

@@ -16,4 +16,8 @@ public interface IMovieListView {
     void hideLoading();
 
     void showLoading();
+
+    void showTypeThreeCharactersView();
+
+    void hideTypeThreeCharactersView();
 }

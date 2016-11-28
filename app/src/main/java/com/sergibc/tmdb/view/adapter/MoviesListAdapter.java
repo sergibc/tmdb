@@ -71,6 +71,14 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         return movieItemViewModels.size();
     }
 
+    public List<MovieItemViewModel> getItems() {
+        return movieItemViewModels;
+    }
+
+    public void setItems(List<MovieItemViewModel> items) {
+        this.movieItemViewModels = items;
+    }
+
     public void addItems(List<MovieItemViewModel> items) {
         if (movieItemViewModels == null) {
             movieItemViewModels = new ArrayList<>();

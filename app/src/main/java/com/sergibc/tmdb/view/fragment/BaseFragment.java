@@ -13,14 +13,11 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
-//import butterknife.ButterKnife;
-
 /**
  * Base Fragment class for <b>every</b> fragment in this application.
  * <p>
  * <ul>
  * <li>Handles communication of the Fragment lifecycle to the {@link com.sergibc.tmdb.presenter.Presenter}.</li>
- * <li>And also performs {@link ButterKnife} binding and unbinding.</li>
  * </ul>
  */
 public abstract class BaseFragment extends Fragment {
@@ -31,15 +28,9 @@ public abstract class BaseFragment extends Fragment {
     @Inject
     PreferencesUtil preferencesUtil;
 
-    //    protected Unbinder unbinder;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutResourceId(), container, false);
-        //        unbinder = ButterKnife.bind(this, view);
-        //        ButterKnife.setDebug(BuildConfig.DEBUG);
-
-        return view;
+        return inflater.inflate(getLayoutResourceId(), container, false);
     }
 
     protected abstract int getLayoutResourceId();
@@ -100,8 +91,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
-        //        unbinder.unbind();
 
         Presenter presenter = getPresenter();
         if (presenter != null) {

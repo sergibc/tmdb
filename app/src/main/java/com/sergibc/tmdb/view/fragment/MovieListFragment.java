@@ -3,6 +3,7 @@ package com.sergibc.tmdb.view.fragment;
 import com.sergibc.tmdb.R;
 import com.sergibc.tmdb.domain.bean.interactor.movie.MovieResponseBo;
 import com.sergibc.tmdb.internal.di.component.MovieComponent;
+import com.sergibc.tmdb.model.MovieItemViewModel;
 import com.sergibc.tmdb.model.MovieViewModel;
 import com.sergibc.tmdb.model.mapper.ViewModelMovieMapper;
 import com.sergibc.tmdb.presenter.MovieListPresenter;
@@ -13,6 +14,7 @@ import com.sergibc.tmdb.view.listener.EndlessScrollListener;
 import com.sergibc.tmdb.view.widget.FabScrollBehavior;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -29,10 +31,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
-
-//import butterknife.BindView;
 
 /**
  * Fragment for movie list
@@ -42,15 +46,20 @@ public class MovieListFragment extends BaseFragment
 
     private static final String TAG = "MovieListFragment";
 
+    private static final String MOVIE_LIST_STATE = "state.movies";
+
+    private static final String SEARCH_QUERY_STATE = "state.search_query";
+
+    private static final int SEARCH_MINIMUM_CHARACTERS = 3;
+
     @Inject
     MovieListPresenter presenter;
 
-    //    @BindView(R.id.movie_list)
     private RecyclerView movieList;
 
     private SearchView searchView;
 
-    private View emptyView;
+    private TextView info;
 
     private View loadingView;
 
@@ -62,6 +71,8 @@ public class MovieListFragment extends BaseFragment
 
     private boolean searching;
 
+    private String savedQuery;
+
     public MovieListFragment() {
 
     }
@@ -72,25 +83,35 @@ public class MovieListFragment extends BaseFragment
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(MOVIE_LIST_STATE, (ArrayList<? extends Parcelable>) adapter.getItems());
+        if (searchView != null && searchView.getQuery() != null && !TextUtils.isEmpty(searchView.getQuery().toString())) {
+            outState.putString(SEARCH_QUERY_STATE, searchView.getQuery().toString());
+        }
     }
 
     // TODO Review ButterKnife
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
-        //        unbinder = ButterKnife.bind(this, view);
-        //        ButterKnife.setDebug(BuildConfig.DEBUG);
+
+        findViews(view);
+        setActionBar();
+
+        return view;
+    }
+
+    private void findViews(View view) {
         movieList = (RecyclerView) view.findViewById(R.id.movie_list);
-        emptyView = view.findViewById(R.id.movie_empty);
+        info = (TextView) view.findViewById(R.id.movie_info_results);
         loadingView = view.findViewById(R.id.movie_loading);
         fab = (FloatingActionButton) view.findViewById(R.id.movie_fab);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+    }
 
-        return view;
+    private void setActionBar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
     @Override
@@ -102,11 +123,34 @@ public class MovieListFragment extends BaseFragment
     protected void initializeFragment(Bundle savedInstanceState) {
         initializeInjector();
 
+        setHasOptionsMenu(true);
+
         initializeUI();
 
-        initializePresenter();
+        initializePresenter(savedInstanceState);
+
+        restoreSavedState(savedInstanceState);
 
         setListeners();
+    }
+
+    private void restoreSavedState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            restoreMovies(savedInstanceState);
+            restoreSearchQuery(savedInstanceState);
+        }
+    }
+
+    private void restoreSearchQuery(Bundle savedInstanceState) {
+        savedQuery = savedInstanceState.getString(SEARCH_QUERY_STATE);
+    }
+
+    private void restoreMovies(Bundle savedInstanceState) {
+        List<MovieItemViewModel> movies = savedInstanceState.getParcelableArrayList(MOVIE_LIST_STATE);
+        adapter.setItems(movies);
+        if (movies == null || movies.isEmpty()) {
+            showEmptyView();
+        }
     }
 
     @Override
@@ -119,9 +163,11 @@ public class MovieListFragment extends BaseFragment
         movieComponent.inject(this);
     }
 
-    private void initializePresenter() {
+    private void initializePresenter(Bundle savedInstanceState) {
         presenter.setView(this);
-        presenter.initialize();
+        if (savedInstanceState == null) {
+            presenter.initialize();
+        }
     }
 
     private void initializeUI() {
@@ -166,15 +212,16 @@ public class MovieListFragment extends BaseFragment
 
     @Override
     public void hideEmptyView() {
-        if (emptyView != null) {
-            emptyView.setVisibility(View.GONE);
+        if (info != null) {
+            info.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void showEmptyView() {
-        if (emptyView != null) {
-            emptyView.setVisibility(View.VISIBLE);
+        if (info != null) {
+            info.setText(R.string.no_movies);
+            info.setVisibility(View.VISIBLE);
         }
     }
 
@@ -188,6 +235,21 @@ public class MovieListFragment extends BaseFragment
     @Override
     public void showLoading() {
         loadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showTypeThreeCharactersView() {
+        if (info != null) {
+            info.setText(R.string.type_three_characters);
+            info.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideTypeThreeCharactersView() {
+        if (info != null) {
+            info.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -207,6 +269,15 @@ public class MovieListFragment extends BaseFragment
                 searchView.setQuery("", false);
             }
         });
+
+        // restore search view after a screen orientation change
+        if (savedQuery != null) {
+            searchItem.expandActionView();
+            searchView.setQuery(savedQuery, false);
+            searchView.clearFocus();
+        } else if (adapter.getItems() == null || adapter.getItems().isEmpty()) {
+            initializePresenter(null);
+        }
     }
 
     @Override
@@ -219,7 +290,12 @@ public class MovieListFragment extends BaseFragment
     @Override
     public boolean onQueryTextChange(String newText) {
         Log.d(TAG, "onQueryTextChange: " + newText);
-        search(newText);
+        if (savedQuery == null
+                || (!TextUtils.isEmpty(newText) && !newText.equals(savedQuery))) { // avoid search on screen orientation change
+            search(newText);
+        } else if (savedQuery != null && savedQuery.length() < SEARCH_MINIMUM_CHARACTERS) {
+            showTypeThreeCharactersView();
+        }
         return false;
     }
 
@@ -232,7 +308,7 @@ public class MovieListFragment extends BaseFragment
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
         adapter.clearData();
-        initializePresenter();
+        initializePresenter(null);
         return true;
     }
 
@@ -255,12 +331,13 @@ public class MovieListFragment extends BaseFragment
 
     private void search(String query) {
         adapter.clearData();
-        if (!TextUtils.isEmpty(query) && query.length() >= 3) {
-            // TODO show loading
+        savedQuery = null;
+        if (!TextUtils.isEmpty(query) && query.length() >= SEARCH_MINIMUM_CHARACTERS) {
+            hideTypeThreeCharactersView();
             searching = true;
             presenter.search(MovieListPresenter.DEFAULT_FIRST_PAGE, query);
         } else {
-            // TODO show at least 3 chars
+            showTypeThreeCharactersView();
         }
     }
 }
