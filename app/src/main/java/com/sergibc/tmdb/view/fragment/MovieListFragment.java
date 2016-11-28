@@ -219,6 +219,7 @@ public class MovieListFragment extends BaseFragment
 
     @Override
     public void showEmptyView() {
+        adapter.clearData();
         if (info != null) {
             info.setText(R.string.no_movies);
             info.setVisibility(View.VISIBLE);

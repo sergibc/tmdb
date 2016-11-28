@@ -60,7 +60,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
                         .into(holder.getMovieImage());
             } else {
                 Picasso.with(context)
-                        .load(R.drawable.place_holder)
+                        .load(R.drawable.logo)
                         .into(holder.getMovieImage());
             }
         }
