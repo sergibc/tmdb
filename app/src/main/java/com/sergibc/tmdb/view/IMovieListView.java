@@ -20,4 +20,8 @@ public interface IMovieListView {
     void showTypeThreeCharactersView();
 
     void hideTypeThreeCharactersView();
+
+    void showNoConnection();
+
+    void showError(boolean restart);
 }

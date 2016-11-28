@@ -14,11 +14,13 @@ import com.sergibc.tmdb.view.adapter.MoviesListAdapter;
 import com.sergibc.tmdb.view.listener.EndlessScrollListener;
 import com.sergibc.tmdb.view.widget.FabScrollBehavior;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -264,6 +266,16 @@ public class MovieListFragment extends BaseFragment
     }
 
     @Override
+    public void showNoConnection() {
+        showConnectionError();
+    }
+
+    @Override
+    public void showError(boolean restart) {
+        showErrorMessage(restart);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_movies, menu);
 
@@ -350,5 +362,46 @@ public class MovieListFragment extends BaseFragment
         } else {
             showTypeThreeCharactersView();
         }
+    }
+
+    private void showConnectionError() {
+        hideLoading();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getContext().getString(R.string.error_title));
+        builder.setMessage(getContext().getString(R.string.error_connection));
+        builder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                presenter.initialize();
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
+    }
+
+    private void showErrorMessage(boolean restart) {
+        hideLoading();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getContext().getString(R.string.error_title));
+        builder.setMessage(getContext().getString(R.string.error_generic));
+        if (restart) {
+            builder.setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    presenter.initialize();
+                }
+            });
+        } else {
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
+        builder.setCancelable(false);
+        builder.create().show();
     }
 }

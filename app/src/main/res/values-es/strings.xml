@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TMDB Popular Movies</string>
+    <string name="action_search">Buscar</string>
+    <string name="not_available">n/d</string>
+    <string name="no_movies">No hay películas</string>
+    <string name="loading_movies">Cargando…</string>
+    <string name="type_three_characters">Introduzca al menos 3 carácteres</string>
+    <string name="retry">Reintentar</string>
+    <string name="error_title">Error</string>
+    <string name="error_connection">Sin conexión a Internet. Por favor, reviso los ajustes de conexión y reintente.</string>
+    <string name="error_generic">Error inesperado</string>
+</resources>

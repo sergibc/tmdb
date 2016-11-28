@@ -5,4 +5,8 @@
     <string name="no_movies">No movies</string>
     <string name="loading_movies">Loading…</string>
     <string name="type_three_characters">Type at least 3 characters</string>
+    <string name="retry">Retry</string>
+    <string name="error_title">Error</string>
+    <string name="error_connection">No internet connection. Please check your connection settings and retry.</string>
+    <string name="error_generic">Unexpected Error. </string>
 </resources>
