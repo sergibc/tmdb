@@ -8,6 +8,7 @@ import com.sergibc.tmdb.model.MovieViewModel;
 import com.sergibc.tmdb.model.mapper.ViewModelMovieMapper;
 import com.sergibc.tmdb.presenter.MovieListPresenter;
 import com.sergibc.tmdb.presenter.Presenter;
+import com.sergibc.tmdb.utils.ScreenUtils;
 import com.sergibc.tmdb.view.IMovieListView;
 import com.sergibc.tmdb.view.adapter.MoviesListAdapter;
 import com.sergibc.tmdb.view.listener.EndlessScrollListener;
@@ -22,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,6 +53,10 @@ public class MovieListFragment extends BaseFragment
     private static final String SEARCH_QUERY_STATE = "state.search_query";
 
     private static final int SEARCH_MINIMUM_CHARACTERS = 3;
+
+    private static final int COLUMNS_TABLET = 2;
+
+    private static final int COLUMNS_SMARTPHONE = 1;
 
     @Inject
     MovieListPresenter presenter;
@@ -171,7 +177,11 @@ public class MovieListFragment extends BaseFragment
     }
 
     private void initializeUI() {
-        movieList.setLayoutManager(new LinearLayoutManager(getContext())); // TODO change
+        if (ScreenUtils.isTablet(getContext())) {
+            movieList.setLayoutManager(new StaggeredGridLayoutManager(COLUMNS_TABLET, LinearLayoutManager.VERTICAL));
+        } else {
+            movieList.setLayoutManager(new StaggeredGridLayoutManager(COLUMNS_SMARTPHONE, LinearLayoutManager.VERTICAL));
+        }
         adapter = new MoviesListAdapter(getContext());
         movieList.setAdapter(adapter);
         setFabButtonVisibility();
