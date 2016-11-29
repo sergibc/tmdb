@@ -1,11 +1,13 @@
 package com.sergibc.tmdb.data.net;
 
+import com.sergibc.tmdb.data.BuildConfig;
+
 /**
  * API Constants
  */
 public interface ApiConstants {
 
-    String API_KEY = "93aea0c77bc168d8bbce3918cefefa45"; // Should be in a properties file and not pushed to the VCS
+    String API_KEY = BuildConfig.API_KEY; // Should be in a properties file and not pushed to the VCS
 
     String API_VERSION = "3";
 

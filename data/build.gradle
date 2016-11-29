@@ -22,7 +22,8 @@ apply plugin: 'checkstyle'
 
 task checkstyle(type: Checkstyle) {
     configFile file("${project.rootDir}/config/quality/checkstyle/checkstyle.xml")
-    configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
+    configProperties.checkstyleSuppressionsPath =
+            file("${project.rootDir}/config/quality/checkstyle/suppressions.xml").absolutePath
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
@@ -61,6 +62,18 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    buildTypes {
+        libraryVariants.all { variant ->
+            variant.buildConfigField "String", "API_KEY", "\"" + getApiKey() + "\""
+        }
+    }
+}
+
+def getApiKey(){
+    def Properties props = new Properties()
+    props.load(new FileInputStream(new File('local.properties')))
+    return props['API_KEY']
 }
 
 dependencies {
