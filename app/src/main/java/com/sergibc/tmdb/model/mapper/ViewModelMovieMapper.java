@@ -37,7 +37,7 @@ public class ViewModelMovieMapper implements Mapper<MovieResponseBo, MovieViewMo
         return null;
     }
 
-    private List<MovieItemViewModel> bosToViewModels(List<MovieBo> bos) {
+    public List<MovieItemViewModel> bosToViewModels(List<MovieBo> bos) {
         List<MovieItemViewModel> viewModels = null;
 
         if (bos != null && !bos.isEmpty()) {
@@ -50,7 +50,7 @@ public class ViewModelMovieMapper implements Mapper<MovieResponseBo, MovieViewMo
         return viewModels;
     }
 
-    private MovieItemViewModel boToViewModel(MovieBo bo) {
+    public MovieItemViewModel boToViewModel(MovieBo bo) {
         MovieItemViewModel viewModel = null;
 
         if (bo != null) {

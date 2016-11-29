@@ -36,7 +36,7 @@ public class MovieMapper implements Mapper<MovieResponse, MovieResponseBo> {
         return null;
     }
 
-    private List<MovieBo> modelToData(List<MovieDto> dtos) {
+    public List<MovieBo> modelToData(List<MovieDto> dtos) {
         List<MovieBo> bos = null;
 
         if (dtos != null) {
@@ -53,7 +53,7 @@ public class MovieMapper implements Mapper<MovieResponse, MovieResponseBo> {
     }
 
 
-    private MovieBo modelToData(MovieDto dto) {
+    public MovieBo modelToData(MovieDto dto) {
         MovieBo bo = null;
 
         if (dto != null) {
