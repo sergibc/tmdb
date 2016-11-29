@@ -2,11 +2,8 @@ package com.sergibc.tmdb.view.activity;
 
 import com.sergibc.tmdb.BuildConfig;
 import com.sergibc.tmdb.TMDBApplication;
-import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
-import com.sergibc.tmdb.internal.di.component.ActivityComponent;
 import com.sergibc.tmdb.internal.di.component.ApplicationComponent;
 import com.sergibc.tmdb.internal.di.module.ActivityModule;
-import com.sergibc.tmdb.navigation.Navigator;
 import com.sergibc.tmdb.presenter.Presenter;
 
 import android.os.Bundle;
@@ -16,20 +13,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import javax.inject.Inject;
-
 /**
  * Base {@link AppCompatActivity} class for every Activity in this application.
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    @Inject
-    Navigator navigator;
-
-    @Inject
-    PreferencesUtil preferencesUtil;
-
-    private ActivityComponent activityComponent;
 
     public abstract int getLayoutResourceId();
 

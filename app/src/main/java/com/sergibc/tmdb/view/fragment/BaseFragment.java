@@ -1,8 +1,6 @@
 package com.sergibc.tmdb.view.fragment;
 
-import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
 import com.sergibc.tmdb.internal.di.HasComponent;
-import com.sergibc.tmdb.navigation.Navigator;
 import com.sergibc.tmdb.presenter.Presenter;
 
 import android.os.Bundle;
@@ -10,8 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import javax.inject.Inject;
 
 /**
  * Base Fragment class for <b>every</b> fragment in this application.
@@ -21,12 +17,6 @@ import javax.inject.Inject;
  * </ul>
  */
 public abstract class BaseFragment extends Fragment {
-
-    @Inject
-    Navigator navigator;
-
-    @Inject
-    PreferencesUtil preferencesUtil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

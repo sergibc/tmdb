@@ -39,9 +39,5 @@ public interface Api {
             @Query("language") String language,
             @Query("query") String query,
             @Query("page") int page
-            //            @Path("include_adult") boolean includeAdult, // It is optional and we don't need for this coding test
-            //            @Path("year") int year, // It is optional and we don't need for this coding test
-            //            @Path("primary_release_year") int primaryReleaseYear // It is optional and we don't need for this
-            // coding test
     );
 }

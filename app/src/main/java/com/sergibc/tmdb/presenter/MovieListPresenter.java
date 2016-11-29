@@ -10,7 +10,6 @@ import com.sergibc.tmdb.view.IMovieListView;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,14 +27,14 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
 
     private final Interactor searchMoviesUseCase;
 
+    @Inject
+    Context context;
+
     private int page = DEFAULT_FIRST_PAGE;
 
     private int totalPages = DEFAULT_FIRST_PAGE;
 
     private String query;
-
-    @Inject
-    Context context;
 
     @Inject
     public MovieListPresenter(@Named("getPopularMoviesUseCase") Interactor getPopularMoviesUseCase,
@@ -52,7 +51,6 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
 
     @Override
     public void resume() {
-        //        subscribeToBus();
     }
 
     @Override
@@ -63,17 +61,6 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
     @Override
     public void destroy() {
 
-    }
-
-    @Override
-    public void subscribeToBus() {
-        //        subscriptions = new CompositeSubscription();
-        //        subscriptions.add(rxBus.toObservable().subscribe(new Action1<Object>() {
-        //            @Override
-        //            public void call(Object o) {
-        //                Log.d(TAG, "subscribeToBus - Event received");
-        //            }
-        //        }));
     }
 
     private void getPopularMovies() {
@@ -100,7 +87,7 @@ public class MovieListPresenter extends Presenter<IMovieListView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "getPopularMovies: " + e); // TODO
+                        Log.e(TAG, "getPopularMovies: " + e);
                         super.onError(e);
                         view.hideLoading();
                         view.showError(true);

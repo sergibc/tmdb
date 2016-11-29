@@ -99,7 +99,6 @@ public class MovieListFragment extends BaseFragment
         }
     }
 
-    // TODO Review ButterKnife
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResourceId(), container, false);
@@ -215,7 +214,6 @@ public class MovieListFragment extends BaseFragment
         MovieViewModel viewModel = new ViewModelMovieMapper().modelToData(movieResponseBo);
 
         if (viewModel != null) {
-            adapter.setMovieViewModel(viewModel);
             adapter.addItems(viewModel.getMovies());
             if (viewModel.getMovies() != null && !viewModel.getMovies().isEmpty()) {
                 hideEmptyView();

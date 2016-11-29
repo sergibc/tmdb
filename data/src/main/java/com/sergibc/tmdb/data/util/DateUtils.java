@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Util class to work with dates
@@ -23,28 +22,9 @@ public final class DateUtils {
     private DateUtils() {
     }
 
-    public static String getCurrentTime(String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
-        return sdf.format(new Date());
-    }
-
-    public static String getCurrentTime() {
-        return getCurrentTime(DATE_PATTERN);
-    }
-
     private static Date getDateFromString(String dateString, String pattern) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         return dateFormat.parse(dateString);
-    }
-
-    public static String parseDate(Date date, String pattern) {
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
-        return sdf.format(date);
-    }
-
-    public static String parseDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
-        return sdf.format(date);
     }
 
     public static String getYear(String textDate) {

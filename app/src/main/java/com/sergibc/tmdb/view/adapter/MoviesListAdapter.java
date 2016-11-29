@@ -3,7 +3,6 @@ package com.sergibc.tmdb.view.adapter;
 import com.sergibc.tmdb.R;
 import com.sergibc.tmdb.data.net.ApiConstants;
 import com.sergibc.tmdb.model.MovieItemViewModel;
-import com.sergibc.tmdb.model.MovieViewModel;
 import com.sergibc.tmdb.view.adapter.viewholder.MovieViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -23,22 +22,11 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     private Context context;
 
-    private MovieViewModel movieViewModel;
-
     private List<MovieItemViewModel> movieItemViewModels;
 
     public MoviesListAdapter(Context context) {
         this.context = context;
-        this.movieViewModel = null;
         this.movieItemViewModels = new ArrayList<>();
-    }
-
-    public void setMovieViewModel(MovieViewModel movieViewModel) {
-        this.movieViewModel = movieViewModel;
-    }
-
-    public void setMovieItemViewModels(List<MovieItemViewModel> movieItemViewModels) {
-        this.movieItemViewModels = movieItemViewModels;
     }
 
     @Override
@@ -99,8 +87,6 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         } else {
             movieItemViewModels.clear();
         }
-
-        movieViewModel = new MovieViewModel();
 
         notifyDataSetChanged();
     }

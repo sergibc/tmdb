@@ -75,29 +75,4 @@ public class MovieMapper implements Mapper<MovieResponse, MovieResponseBo> {
         }
         return bo;
     }
-
-    // TODO: Remove
-//    private MovieDto dataToModel(MovieBo bo) {
-//        MovieDto dto = null;
-//
-//        if (bo != null) {
-//            dto = new MovieDto();
-//            dto.setPosterPath(bo.getPosterPath());
-//            dto.setAdult(bo.isAdult());
-//            dto.setOverview(bo.getOverview());
-//            dto.setReleaseDate(bo.getReleaseDate());
-//            dto.setGenreIds(bo.getGenreIds());
-//            dto.setId(bo.getId());
-//            dto.setOriginalTitle(bo.getOriginalTitle());
-//            dto.setOriginalLanguage(bo.getOriginalLanguage());
-//            dto.setTitle(bo.getTitle());
-//            dto.setBackdropPath(bo.getBackdropPath());
-//            dto.setPopularity(bo.getPopularity());
-//            dto.setVoteCount(bo.getVoteCount());
-//            dto.setVideo(bo.isVideo());
-//            dto.setVoteAverage(bo.getVoteAverage());
-//        }
-//
-//        return dto;
-//    }
 }

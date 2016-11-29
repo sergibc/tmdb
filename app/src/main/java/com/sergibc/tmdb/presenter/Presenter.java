@@ -1,10 +1,5 @@
 package com.sergibc.tmdb.presenter;
 
-import com.sergibc.tmdb.data.bus.RxBus;
-import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
-import com.sergibc.tmdb.navigation.Navigator;
-
-import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -19,15 +14,6 @@ public abstract class Presenter <V> {
     protected V view;
 
     protected CompositeSubscription subscriptions;
-
-    @Inject
-    Navigator navigator;
-
-    @Inject
-    PreferencesUtil preferencesUtil;
-
-    @Inject
-    RxBus rxBus;
 
     private void checkViewAlreadySet() {
         if (view == null) {
@@ -73,5 +59,4 @@ public abstract class Presenter <V> {
      */
     public abstract void destroy();
 
-    public abstract void subscribeToBus();
 }

@@ -2,7 +2,6 @@ package com.sergibc.tmdb.data.repository.datasource;
 
 import com.sergibc.tmdb.data.net.ApiConstants;
 import com.sergibc.tmdb.data.util.DeviceUtil;
-import com.sergibc.tmdb.data.util.preferences.PreferencesUtil;
 
 import android.content.Context;
 
@@ -48,8 +47,6 @@ public abstract class CommonCloudDataStore {
     }
 
     protected String getApiKey() {
-//        PreferencesUtil preferences = new PreferencesUtil(context);
-//        return preferences.getApiKey();
         return ApiConstants.API_KEY;
     }
 

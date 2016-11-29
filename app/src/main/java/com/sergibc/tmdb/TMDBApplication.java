@@ -17,8 +17,6 @@ public class TMDBApplication extends Application {
     public void onCreate() {
         super.onCreate();
         this.initializeInjector();
-
-        // TODO Add other initialisations needed
     }
 
     private void initializeInjector() {
