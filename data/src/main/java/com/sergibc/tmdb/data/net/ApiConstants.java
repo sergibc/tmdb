@@ -11,4 +11,6 @@ public interface ApiConstants {
 
     String ENDPOINT = "https://api.themoviedb.org/" + API_VERSION + "/";
 
+    String IMAGES_SERVICE = "http://image.tmdb.org/t/p/w500";
+
 }

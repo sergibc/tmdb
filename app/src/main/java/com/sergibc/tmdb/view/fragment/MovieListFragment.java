@@ -151,6 +151,9 @@ public class MovieListFragment extends BaseFragment
 
     private void restoreSearchQuery(Bundle savedInstanceState) {
         savedQuery = savedInstanceState.getString(SEARCH_QUERY_STATE);
+        if (savedQuery == null && adapter.getItems() == null || adapter.getItems().isEmpty()) {
+            initializePresenter(null);
+        }
     }
 
     private void restoreMovies(Bundle savedInstanceState) {
@@ -294,12 +297,10 @@ public class MovieListFragment extends BaseFragment
         });
 
         // restore search view after a screen orientation change
-        if (savedQuery != null) {
+        if (savedQuery != null && savedQuery.length() >= SEARCH_MINIMUM_CHARACTERS) {
             searchItem.expandActionView();
             searchView.setQuery(savedQuery, false);
             searchView.clearFocus();
-        } else if (adapter.getItems() == null || adapter.getItems().isEmpty()) {
-            initializePresenter(null);
         }
     }
 

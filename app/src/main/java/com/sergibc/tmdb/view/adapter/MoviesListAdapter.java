@@ -1,6 +1,7 @@
 package com.sergibc.tmdb.view.adapter;
 
 import com.sergibc.tmdb.R;
+import com.sergibc.tmdb.data.net.ApiConstants;
 import com.sergibc.tmdb.model.MovieItemViewModel;
 import com.sergibc.tmdb.model.MovieViewModel;
 import com.sergibc.tmdb.view.adapter.viewholder.MovieViewHolder;
@@ -56,7 +57,9 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MovieViewHolder> {
             holder.getMovieOverview().setText(getStringField(movie.getOverview()));
             if (!TextUtils.isEmpty(movie.getImagePath())) {
                 Picasso.with(context)
-                        .load("http://image.tmdb.org/t/p/w500" + movie.getImagePath())
+                        .load(ApiConstants.IMAGES_SERVICE + movie.getImagePath())
+                        .fit()
+                        .centerCrop()
                         .into(holder.getMovieImage());
             } else {
                 Picasso.with(context)
